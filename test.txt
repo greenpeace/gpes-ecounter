@@ -1,0 +1,7 @@
+test1@test.com,  test2@test.com,  Test3@test.com;
+
+test.4@test.com Foo is foo, Test2@test.com  Test2@test.com
+
+   :test5@test.com
+
+bar is bar peach
