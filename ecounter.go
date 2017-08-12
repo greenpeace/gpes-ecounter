@@ -19,7 +19,7 @@ func main() {
 	inputFile := flag.String("input", "test.txt", "File to do the operations")
 	outputFile := flag.String("output", "output.txt", "File to output the results")
 	debug = flag.Bool("debug", false, "Display help")
-	encrypted := flag.Bool("encrypted", false, "Encrypts the emails as sha256")
+	encrypt := flag.Bool("encrypt", false, "Encrypts the emails as sha256")
 	flag.Parse()
 
 	if *help == true {
@@ -35,7 +35,7 @@ func main() {
 		allMatchesLC := arrayToLowercase(allMatches)
 		uniques := uniquesInArray(allMatchesLC)
 
-		if *encrypted == true {
+		if *encrypt == true {
 			uniques = arrayToSha256(uniques)
 		}
 
@@ -48,7 +48,7 @@ func main() {
 		fmt.Println("The results are in the file: ", *outputFile)
 		fmt.Println("Number of non unique emails found in", *inputFile, ":", len(allMatches))
 		fmt.Println("Number of unique emails in", *outputFile, ":", len(uniques))
-		fmt.Println("Are the results encrypted with sha256?", *encrypted)
+		fmt.Println("Are the results encrypted with sha256?", *encrypt)
 		fmt.Printf("\n")
 
 	}

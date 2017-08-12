@@ -32,7 +32,7 @@ Scan a file and create another file with just one email per line:
 #### Encrypt emails
 
 ```
-./ecounter -input=rawfile.csv -output=uniques.txt -encrypted=true
+./ecounter -input=rawfile.csv -output=uniques.txt -encrypt=true
 ```
 
 #### Work from multiple files 
@@ -52,7 +52,7 @@ cat all/*.csv > combined.txt
 Please note that the files don't need to be in the same format. They just need to be csv or text files containing, among any information, email addresses. When the email addresses are all in one file, use it normally:
 
 ```
-./ecounter -input=combined.txt -output=uniques.txt -encrypted=true
+./ecounter -input=combined.txt -output=uniques.txt -encrypt=true
 ```
 
 ## Install
