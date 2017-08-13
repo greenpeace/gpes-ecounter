@@ -4,6 +4,7 @@
 
 * **Count unique email addresses** in a file. Ideal to work from a file produced by combining multiple csv and plain text files.
 * Create lists of encrypted emails that can be [uploaded to **Google Adwords**](https://support.google.com/adwords/answer/6276125?hl=en). Tested up to 2.000.000 emails without issues.
+* Beside emails, it can also **count unique sha256** hashes in a file. For example, to use with encrypted email addresses.
 
 ## Why use it?
 
@@ -28,6 +29,16 @@ Scan a file and create another file with just one email per line:
 ```
 ./ecounter -input=rawfile.csv -output=uniques.txt
 ```
+
+#### Scan sha256 hashes in a file
+
+Scan a file for sha256 hashes and create another file with just one (unique) sha256 hash per line:
+
+```
+./ecounter -input=rawfile.csv -count=sha256 -output=uniques.txt
+```
+
+This feature is useful to count unique emails when they are encrypted.
 
 #### Encrypt emails
 
