@@ -11,7 +11,7 @@
 ## Why use it?
 
 * **It's fast** - It parses a 75MB file, counting, selecting and hashing (encrypting) more than 1.000.000 unique email addresses in about 10 seconds in a good laptop computer.
-* **It's easy to use** - It parses any csv, html or plain text file. It does not require a specific format and can work from a file combining different formats.
+* **It's easy to use** - It parses any csv, html, sql or plain text file. It does not require a specific format and can work from a file combining different formats.
 * **It's free** -  No cost and the freedom to study and modify to fit.
 
 ## How to use it

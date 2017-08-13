@@ -8,11 +8,11 @@ func helpMe() {
 
 * * * HELP * * *
 
-Script to extract unique emails from a text file, including csv, txt or html. Optionally save it as sha 256.
+Script to extract unique emails from a text file, including csv, txt, sql or html. Optionally save them hashed (encrypted) as sha256.
 
 Use the options as in this example:
 
-./ecounter -input=rawfile.csv -output=uniques.txt -encripted=true
+./ecounter -input=rawfile.csv -count=emails -output=uniques.txt -encrypt=true
 
 -help				Display this help
 -input=rawfile.csv		Define the input file as rawfile.csv

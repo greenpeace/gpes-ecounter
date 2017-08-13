@@ -21,7 +21,7 @@ func main() {
 	inputFile := flag.String("input", "test.txt", "File to do the operations")
 	countIt := flag.String("count", "emails", "What to count")
 	outputFile := flag.String("output", "output.txt", "File to output the results")
-	debug = flag.Bool("debug", false, "Display help")
+	debug = flag.Bool("debug", false, "Debug the script")
 	encrypt := flag.Bool("encrypt", false, "Encrypts the emails as sha256")
 	flag.Parse()
 
