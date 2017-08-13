@@ -1,14 +1,16 @@
 # Ecounter
 
+**Count and encrypt email addresses in files faster.**
+
 ## What's the purpose of this script?
 
-* **Count unique email addresses** in a file. Ideal to work from a file produced by combining multiple csv and plain text files.
-* Create lists of encrypted emails that can be [uploaded to **Google Adwords**](https://support.google.com/adwords/answer/6276125?hl=en). Tested up to 2.000.000 emails without issues.
-* Beside emails, it can also **count unique sha256** hashes in a file. For example, to use with encrypted email addresses.
+* **Count unique email addresses** in a file. Ideal to work from a file produced by combining multiple csv and plain text files in multiple formats.
+* Create lists of hashed (encrypted) email addresses that can be [uploaded to **Google Adwords**](https://support.google.com/adwords/answer/6276125?hl=en). Tested up to 2.000.000 email addresses without issues.
+* Beside email addresses, it can also **count unique sha256** hashes in a file. It can be used to count unique email addresses when they are hashed.
 
 ## Why use it?
 
-* **It's fast** - It parses a 75MB file, counting, selecting and encrypting more than 1.000.000 unique emails in about 10 seconds in a good laptop computer.
+* **It's fast** - It parses a 75MB file, counting, selecting and hashing (encrypting) more than 1.000.000 unique email addresses in about 10 seconds in a good laptop computer.
 * **It's easy to use** - It parses any csv, html or plain text file. It does not require a specific format and can work from a file combining different formats.
 * **It's free** -  No cost and the freedom to study and modify to fit.
 
@@ -38,9 +40,9 @@ Scan a file for sha256 hashes and create another file with just one (unique) sha
 ./ecounter -input=rawfile.csv -count=sha256 -output=uniques.txt
 ```
 
-This feature is useful to count unique emails when they are encrypted.
+This feature is useful to count unique emails when they are hashed (encrypted).
 
-#### Encrypt emails
+#### Hash emails (encrypt)
 
 ```
 ./ecounter -input=rawfile.csv -output=uniques.txt -encrypt=true
@@ -48,7 +50,7 @@ This feature is useful to count unique emails when they are encrypted.
 
 #### Work from multiple files 
 
-To extract unique emails from multiple files you must concatenate the files in one plain .txt file first. Use the command line (**cat** command) to join the csv or txt files in a **combined.txt** file:
+To extract unique emails from multiple files you must concatenate the files in one plain .txt file first. Use the command line (`cat` in Linux or Mac and `type` in Windows) to join the csv or txt files in a **combined.txt** file:
 
 ```
 cat raw1.csv raw2.csv > combined.txt 
@@ -72,5 +74,5 @@ Currently this script is provided as source code in **[Go](https://golang.org/dl
 
 ## Problems?
 
-* If **the total number of emails doesn't match** is because this script uses a regular expression to find emails in a file. Sometimes certain email addresses that are accepted by other softwares don't match it's regular expression. You can modify the constant `emailRegex` in the script. Try different regular expressions if you want, but it's likely that the unaccounted emails are not valid anyway.
+* If **the total number of emails doesn't match** it's because this script uses a regular expression to find emails in a file. Sometimes certain email addresses that are accepted by other softwares don't match this regular expression. To modify the regular expression change the constant `emailRegex` in the script. Try different regular expressions if you want, but it's likely that the unaccounted emails are not valid, so why should you count them?
 
