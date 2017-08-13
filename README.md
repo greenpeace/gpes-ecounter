@@ -48,6 +48,18 @@ This feature is useful to count unique emails when they are hashed (encrypted).
 ./ecounter -input=rawfile.csv -output=uniques.txt -encrypt=true
 ```
 
+#### Counting
+
+The script produces a report like this:
+
+```
+WHAT HAPPENED?
+The parsed file :  rawfile.csv
+Number of total emails found in rawfile.csv : 1420463
+Number of unique emails saved in the file uniques.txt : 1329624
+The results are hashed as sha256 ? true
+```
+
 #### Work from multiple files 
 
 To extract unique emails from multiple files you must concatenate the files in one plain .txt file first. Use the command line (`cat` in Linux or Mac and `type` in Windows) to join the csv or txt files in a **combined.txt** file:

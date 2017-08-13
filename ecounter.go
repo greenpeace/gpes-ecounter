@@ -56,11 +56,10 @@ func main() {
 		stringToFile(*outputFile, stringFinal)
 
 		fmt.Println("\nWHAT HAPPENED?")
-		fmt.Println("The parsed file is: ", *inputFile)
-		fmt.Println("The results are in the file: ", *outputFile)
-		fmt.Println("Number of non unique", *countIt, "found in", *inputFile, ":", len(allMatches))
-		fmt.Println("Number of unique", *countIt, "in", *outputFile, ":", len(uniques))
-		fmt.Println("Are the results processed with sha256?", *encrypt)
+		fmt.Println("The parsed file : ", *inputFile)
+		fmt.Println("Number of total", *countIt, "found in", *inputFile, ":", len(allMatches))
+		fmt.Println("Number of unique", *countIt, "saved in the file", *outputFile, ":", len(uniques))
+		fmt.Println("The results are hashed as sha256 ?", *encrypt)
 		fmt.Printf("\n")
 
 	}
