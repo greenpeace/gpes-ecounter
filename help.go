@@ -16,6 +16,7 @@ Use the options as in this example:
 
 -help				Display this help
 -input=rawfile.csv		Define the input file as rawfile.csv
+-count=emails			What to count in the file. It can be "emails" or "sha256". By default it counts emails.
 -output=uniques.txt		Define the output file as uniques.txt 
 -encrypt=true			Encrypt the results as sha256, to upload to Google Adwords
 -debug=true			Debug the script					

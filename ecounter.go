@@ -9,6 +9,8 @@ import (
 
 const emailRegex string = `([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)`
 
+const shaRegex string = `[A-Fa-f0-9]{64}`
+
 var debug *bool
 
 func main() {
@@ -17,6 +19,7 @@ func main() {
 
 	help := flag.Bool("help", false, "Display help")
 	inputFile := flag.String("input", "test.txt", "File to do the operations")
+	countIt := flag.String("count", "emails", "What to count")
 	outputFile := flag.String("output", "output.txt", "File to output the results")
 	debug = flag.Bool("debug", false, "Display help")
 	encrypt := flag.Bool("encrypt", false, "Encrypts the emails as sha256")
@@ -30,7 +33,16 @@ func main() {
 
 		fileToHandle := fileToString(*inputFile)
 
-		allMatches := searchInString(fileToHandle, emailRegex)
+		var allMatches []string
+
+		switch *countIt {
+		case "emails":
+			allMatches = searchInString(fileToHandle, emailRegex)
+		case "sha256":
+			allMatches = searchInString(fileToHandle, shaRegex)
+		default:
+			allMatches = searchInString(fileToHandle, emailRegex)
+		}
 
 		allMatchesLC := arrayToLowercase(allMatches)
 		uniques := uniquesInArray(allMatchesLC)
@@ -46,9 +58,9 @@ func main() {
 		fmt.Println("\nWHAT HAPPENED?")
 		fmt.Println("The parsed file is: ", *inputFile)
 		fmt.Println("The results are in the file: ", *outputFile)
-		fmt.Println("Number of non unique emails found in", *inputFile, ":", len(allMatches))
-		fmt.Println("Number of unique emails in", *outputFile, ":", len(uniques))
-		fmt.Println("Are the results encrypted with sha256?", *encrypt)
+		fmt.Println("Number of non unique", *countIt, "found in", *inputFile, ":", len(allMatches))
+		fmt.Println("Number of unique", *countIt, "in", *outputFile, ":", len(uniques))
+		fmt.Println("Are the results processed with sha256?", *encrypt)
 		fmt.Printf("\n")
 
 	}
