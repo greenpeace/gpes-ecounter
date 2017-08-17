@@ -85,8 +85,8 @@ Please note that the files don't need to be in the same format. They just need t
 1. Download the [latest version of the binary code](https://github.com/greenpeace/ecounter/releases) for your operating system to your desktop folder.
 2. Unzip it to the desktop folder. *(Optionally copy the executable file to a folder in your [path](https://goo.gl/oLzTGw) )*
 3. To test your install, open the command line, go to the desktop folder and test it with the command: 
-  * `./ecounter --help` *  (Mac or Linux)*
-  * `./ecounter.exe --help` *  (Windows)*
+  * `./ecounter --help` *(Mac or Linux)*
+  * `./ecounter.exe --help` *(Windows)*
 
 This script is also provided as [source code](https://github.com/greenpeace/ecounter/) in [Go](https://golang.org/dl/).
 
