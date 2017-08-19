@@ -58,7 +58,7 @@ func uniquesInArray(a []string) []string {
 		set[v] = struct{}{}
 	}
 	var uniques []string
-	for k, _ := range set {
+	for k := range set {
 		uniques = append(uniques, k)
 	}
 	return uniques
