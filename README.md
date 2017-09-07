@@ -88,7 +88,16 @@ Please note that the files don't need to be in the same format. They just need t
   * `./ecounter --help` *(Mac or Linux)*
   * `./ecounter.exe --help` *(Windows)*
 
-This script is also provided as [source code](https://github.com/greenpeace/ecounter/) in [Go](https://golang.org/dl/).
+
+
+## Install from the source code
+
+This script is also provided as [source code](https://github.com/greenpeace/ecounter/) in [Go](https://golang.org/dl/). To install:
+
+```bash
+go get github.com/greenpeace/ecounter
+go install github.com/greenpeace/ecounter
+```
 
 ## Problems?
 
