@@ -11,6 +11,8 @@ const emailRegex string = `([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]
 
 const shaRegex string = `[A-Fa-f0-9]{64}`
 
+const urlsRegex string = `https?://([\da-z\.-]+)\.([a-z\.]{2,6})([/\w \.-]*)*/?`
+
 var debug *bool
 
 func main() {
@@ -40,6 +42,8 @@ func main() {
 			allMatches = searchInString(fileToHandle, emailRegex)
 		case "sha256":
 			allMatches = searchInString(fileToHandle, shaRegex)
+		case "urls":
+			allMatches = searchInString(fileToHandle, urlsRegex)
 		default:
 			allMatches = searchInString(fileToHandle, emailRegex)
 		}
