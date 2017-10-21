@@ -42,6 +42,16 @@ Scan a file for sha256 hashes and create another file with just one (unique) sha
 
 This feature is useful to count unique emails when they are hashed (encrypted).
 
+#### Scan urls in a file
+
+Scan a file, like for example a sitemap.xml file, for urls:
+
+```
+./ecounter -input=sitemap.xml -count=urls -output=urls.csv
+```
+
+This feature is useful to create files with urls to use with [check-my-pages](https://github.com/greenpeace/check-my-pages).
+
 #### Hash emails (encrypt)
 
 ```
