@@ -36,20 +36,26 @@ func main() {
 		fileToHandle := fileToString(*inputFile)
 
 		var allMatches []string
+		var allMatchesLC []string
+		var uniques []string
 
 		switch *countIt {
 		case "emails":
 			allMatches = searchInString(fileToHandle, emailRegex)
+			allMatchesLC = arrayToLowercase(allMatches)
+			uniques = uniquesInArray(allMatchesLC)
 		case "sha256":
 			allMatches = searchInString(fileToHandle, shaRegex)
+			allMatchesLC = arrayToLowercase(allMatches)
+			uniques = uniquesInArray(allMatchesLC)
 		case "urls":
 			allMatches = searchInString(fileToHandle, urlsRegex)
+			uniques = uniquesInArray(allMatches)
 		default:
 			allMatches = searchInString(fileToHandle, emailRegex)
+			allMatchesLC = arrayToLowercase(allMatches)
+			uniques = uniquesInArray(allMatchesLC)
 		}
-
-		allMatchesLC := arrayToLowercase(allMatches)
-		uniques := uniquesInArray(allMatchesLC)
 
 		if *encrypt == true {
 			uniques = arrayToSha256(uniques)
