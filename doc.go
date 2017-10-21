@@ -22,7 +22,7 @@ Scan emails in a file
 Scan a file and create another file with just one email per line:
 
     ./ecounter -input=rawfile.csv -output=uniques.txt
-    
+
 Scan sha256 hashes in a file
 
 Scan a file for sha256 hashes and create another file with just one (unique) sha256 hash per line:
@@ -30,6 +30,14 @@ Scan a file for sha256 hashes and create another file with just one (unique) sha
     ./ecounter -input=rawfile.csv -count=sha256 -output=uniques.txt
 
 This feature is useful to count unique emails when they are hashed (encrypted).
+
+Scan urls in a file
+
+Scan a file, like for example a sitemap.xml file, for urls:
+
+    ./ecounter -input=sitemap.xml -count=urls -output=urls.csv
+
+This feature is useful to create files with urls to use with check-my-pages.
 
 Hash emails (encrypt)
 
@@ -48,7 +56,7 @@ Or to do it from all csv files in the all folder:
 Please note that the files don't need to be in the same format. They just need to be csv or text files containing, among any information, email addresses. When the email addresses are all in one file, use it normally:
 
     ./ecounter -input=combined.txt -output=uniques.txt -encrypt=true
-    
+
 .
 */
 package main
