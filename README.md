@@ -20,7 +20,7 @@
 
 **ecounter** is a command line script. To get help type in the command line:
 
-```
+```bash
 ./ecounter --help
 ```
 
@@ -28,7 +28,7 @@
 
 Scan a file and create another file with just one email per line:
 
-```
+```bash
 ./ecounter -input=rawfile.csv -output=uniques.txt
 ```
 
@@ -36,7 +36,7 @@ Scan a file and create another file with just one email per line:
 
 Scan a file for sha256 hashes and create another file with just one (unique) sha256 hash per line:
 
-```
+```bash
 ./ecounter -input=rawfile.csv -count=sha256 -output=uniques.txt
 ```
 
@@ -46,7 +46,7 @@ This feature is useful to count unique emails when they are hashed (encrypted).
 
 Scan a file, like for example a sitemap.xml file, for urls:
 
-```
+```bash
 ./ecounter -input=sitemap.xml -count=urls -output=urls.csv
 ```
 
@@ -54,7 +54,7 @@ This feature is useful to create files with urls to use with [check-my-pages](ht
 
 #### Hash emails (encrypt)
 
-```
+```bash
 ./ecounter -input=rawfile.csv -output=uniques.txt -encrypt=true
 ```
 
@@ -62,7 +62,7 @@ This feature is useful to create files with urls to use with [check-my-pages](ht
 
 The script produces a report like this:
 
-```
+```bash
 WHAT HAPPENED?
 The parsed file :  rawfile.csv
 Number of total emails found in rawfile.csv : 1420463
@@ -70,35 +70,34 @@ Number of unique emails saved in the file uniques.txt : 1329624
 The results are hashed as sha256 ? true
 ```
 
-#### Work from multiple files 
+#### Work from multiple files
 
 To extract unique emails from multiple files you must concatenate the files in one plain .txt file first. Use the command line (`cat` in Linux or Mac and `type` in Windows) to join the csv or txt files in a **combined.txt** file:
 
-```
+```bash
 cat raw1.csv raw2.csv > combined.txt 
 ```
 
 Or to do it from all **csv** files in the **all** folder:
 
-```
+```bash
 cat all/*.csv > combined.txt
 ```
 
 Please note that the files don't need to be in the same format. They just need to be csv or text files containing, among any information, email addresses. When the email addresses are all in one file, use it normally:
 
-```
+```bash
 ./ecounter -input=combined.txt -output=uniques.txt -encrypt=true
 ```
 
 ## Install
 
 1. Download the [latest version of the binary code](https://github.com/greenpeace/ecounter/releases) for your operating system to your desktop folder.
-2. Unzip it to the desktop folder. *(Optionally copy the executable file to a folder in your [path](https://goo.gl/oLzTGw) )*
-3. To test your install, open the command line, go to the desktop folder and test it with the command: 
-  * `./ecounter --help` *(Mac or Linux)*
-  * `./ecounter.exe --help` *(Windows)*
+1. Unzip it to the desktop folder. *(Optionally copy the executable file to a folder in your [path](https://goo.gl/oLzTGw) )*
+1. To test your install, open the command line, go to the desktop folder and test it with the command: 
 
-
+* `./ecounter --help` *(Mac or Linux)*
+* `./ecounter.exe --help` *(Windows)*
 
 ## Install from the source code
 
@@ -112,4 +111,3 @@ go install github.com/greenpeace/ecounter
 ## Problems?
 
 * If **the total number of emails doesn't match** it's because this script uses a regular expression to find emails in a file. Sometimes certain email addresses that are accepted by other softwares don't match this regular expression. To modify the regular expression change the constant `emailRegex` in the script. Try different regular expressions if you want, but it's likely that the unaccounted emails are not valid, so why should you count them?
-
