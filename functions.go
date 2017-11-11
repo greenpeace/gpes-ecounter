@@ -3,8 +3,10 @@ package main
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"regexp"
 	"strings"
 	"time"
@@ -21,6 +23,10 @@ func timeTrack(start time.Time, name string) {
 // fileToString reads a file into a sting.
 func fileToString(fileName string) string {
 	defer timeTrack(time.Now(), "fileToString")
+	if _, err := os.Stat(fileName); os.IsNotExist(err) {
+		fmt.Println("ERROR: The file/path", fileName, "does not exist here")
+		os.Exit(-1)
+	}
 	dat, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		panic(err)
