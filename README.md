@@ -52,6 +52,14 @@ Scan a file, like for example a sitemap.xml file, for urls:
 
 This feature is useful to create files with urls to use with [check-my-pages](https://github.com/greenpeace/check-my-pages).
 
+#### Scan Spanish ID numbers
+
+Scan Spanish ID numbers (DNI or NIE)
+
+```bash
+./ecounter -input=rawfile.csv -count=dnis -output=uniques.txt
+```
+
 #### Hash emails (encrypt)
 
 ```bash
