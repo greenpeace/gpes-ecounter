@@ -56,6 +56,17 @@ func arrayToLowercase(a []string) []string {
 	return result
 }
 
+// arrayToUpercase Upercases all the items in an array.
+func arrayToUpercase(a []string) []string {
+	defer timeTrack(time.Now(), "arrayToUpercase")
+	var result []string
+	for _, v := range a {
+		lv := strings.ToUpper(v)
+		result = append(result, lv)
+	}
+	return result
+}
+
 //uniquesInArray Finds uniques in an array and returns.
 func uniquesInArray(a []string) []string {
 	defer timeTrack(time.Now(), "uniquesInArray")
