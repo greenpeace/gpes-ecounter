@@ -11,6 +11,8 @@ const emailRegex string = `([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]
 
 const shaRegex string = `[A-Fa-f0-9]{64}`
 
+const dninieRegex string = `[A-z]?\d{7,8}[TRWAGMYFPDXBNJZSQVHLCKEtrwagmyfpdxbnjzsqvhlcke]`
+
 const urlsRegex string = `https?://([\da-z\.-]+)\.([a-z\.]{2,6})([/\w \.-]*)*/?`
 
 var debug *bool
@@ -37,6 +39,7 @@ func main() {
 
 		var allMatches []string
 		var allMatchesLC []string
+		var allMatchesUC []string
 		var uniques []string
 
 		switch *countIt {
@@ -51,6 +54,10 @@ func main() {
 		case "urls":
 			allMatches = searchInString(fileToHandle, urlsRegex)
 			uniques = uniquesInArray(allMatches)
+		case "dnis":
+			allMatches = searchInString(fileToHandle, dninieRegex)
+			allMatchesUC = arrayToUpercase(allMatches)
+			uniques = uniquesInArray(allMatchesUC)
 		default:
 			allMatches = searchInString(fileToHandle, emailRegex)
 			allMatchesLC = arrayToLowercase(allMatches)
