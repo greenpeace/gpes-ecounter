@@ -15,47 +15,47 @@ GET HELP
 
 	./ecounter --help
 
-HOW TO USE IT
+# HOW TO USE IT
 
-Scan emails in a file
+# Scan emails in a file
 
 Scan a file and create another file with just one email per line:
 
-    ./ecounter -input=rawfile.csv -output=uniques.txt
+	./ecounter -input=rawfile.csv -output=uniques.txt
 
-Scan sha256 hashes in a file
+# Scan sha256 hashes in a file
 
 Scan a file for sha256 hashes and create another file with just one (unique) sha256 hash per line:
 
-    ./ecounter -input=rawfile.csv -count=sha256 -output=uniques.txt
+	./ecounter -input=rawfile.csv -count=sha256 -output=uniques.txt
 
 This feature is useful to count unique emails when they are hashed (encrypted).
 
-Scan urls in a file
+# Scan urls in a file
 
 Scan a file, like for example a sitemap.xml file, for urls:
 
-    ./ecounter -input=sitemap.xml -count=urls -output=urls.csv
+	./ecounter -input=sitemap.xml -count=urls -output=urls.csv
 
 This feature is useful to create files with urls to use with check-my-pages.
 
 Hash emails (encrypt)
 
-    ./ecounter -input=rawfile.csv -output=uniques.txt -encrypt=true
+	./ecounter -input=rawfile.csv -output=uniques.txt -encrypt=true
 
-Work from multiple files
+# Work from multiple files
 
 To extract unique emails from multiple files you must concatenate the files in one plain .txt file first. Use the command line (cat in Linux or Mac and type in Windows) to join the csv or txt files in a combined.txt file:
 
-    cat raw1.csv raw2.csv > combined.txt
+	cat raw1.csv raw2.csv > combined.txt
 
 Or to do it from all csv files in the all folder:
 
-    cat all/*.csv > combined.txt
+	cat all/*.csv > combined.txt
 
 Please note that the files don't need to be in the same format. They just need to be csv or text files containing, among any information, email addresses. When the email addresses are all in one file, use it normally:
 
-    ./ecounter -input=combined.txt -output=uniques.txt -encrypt=true
+	./ecounter -input=combined.txt -output=uniques.txt -encrypt=true
 
 .
 */

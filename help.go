@@ -22,6 +22,6 @@ Use the options as in this example:
 -debug=true			Debug the script					
 
 `
-	fmt.Printf(textToPrint)
+	fmt.Print(textToPrint)
 
 }

@@ -109,11 +109,25 @@ Please note that the files don't need to be in the same format. They just need t
 
 ## Install from the source code
 
-This script is also provided as [source code](https://github.com/greenpeace/gpes-ecounter/) in [Go](https://golang.org/dl/). To install:
+This script is also provided as [source code](https://github.com/greenpeace/gpes-ecounter/) in [Go](https://go.dev/dl/). To install it directly:
 
 ```bash
-go get github.com/greenpeace/gpes-ecounter
-go install github.com/greenpeace/gpes-ecounter
+go install github.com/greenpeace/gpes-ecounter@latest
+```
+
+Or clone the repository and build it:
+
+```bash
+git clone https://github.com/greenpeace/gpes-ecounter.git
+cd gpes-ecounter
+go build
+```
+
+To cross-compile for Windows or Linux from any platform:
+
+```bash
+GOOS=windows GOARCH=amd64 go build -o ecounter.exe .
+GOOS=linux GOARCH=amd64 go build -o ecounter-linux .
 ```
 
 ## Problems?

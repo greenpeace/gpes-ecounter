@@ -4,7 +4,6 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"regexp"
@@ -15,7 +14,7 @@ import (
 // timeTrack is used to debug each function by measuring how long it takes to execute.
 func timeTrack(start time.Time, name string) {
 	elapsed := time.Since(start)
-	if *debug == true {
+	if *debug {
 		log.Printf("%s took %s", name, elapsed)
 	}
 }
@@ -25,9 +24,9 @@ func fileToString(fileName string) string {
 	defer timeTrack(time.Now(), "fileToString")
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		fmt.Println("ERROR: The file/path", fileName, "does not exist here")
-		os.Exit(-1)
+		os.Exit(1)
 	}
-	dat, err := ioutil.ReadFile(fileName)
+	dat, err := os.ReadFile(fileName)
 	if err != nil {
 		panic(err)
 	}
@@ -67,7 +66,7 @@ func arrayToUpercase(a []string) []string {
 	return result
 }
 
-//uniquesInArray Finds uniques in an array and returns.
+// uniquesInArray Finds uniques in an array and returns.
 func uniquesInArray(a []string) []string {
 	defer timeTrack(time.Now(), "uniquesInArray")
 	set := make(map[string]struct{})
@@ -105,7 +104,7 @@ func arrayToSha256(a []string) []string {
 // stringToFile writes a string to a file.
 func stringToFile(fileName string, dat string) {
 	defer timeTrack(time.Now(), "stringToFile")
-	err := ioutil.WriteFile(fileName, []byte(dat), 0644)
+	err := os.WriteFile(fileName, []byte(dat), 0644)
 	if err != nil {
 		panic(err)
 	}

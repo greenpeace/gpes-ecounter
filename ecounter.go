@@ -29,7 +29,7 @@ func main() {
 	encrypt := flag.Bool("encrypt", false, "Encrypts the emails as sha256")
 	flag.Parse()
 
-	if *help == true {
+	if *help {
 
 		helpMe()
 
@@ -64,7 +64,7 @@ func main() {
 			uniques = uniquesInArray(allMatchesLC)
 		}
 
-		if *encrypt == true {
+		if *encrypt {
 			uniques = arrayToSha256(uniques)
 		}
 
