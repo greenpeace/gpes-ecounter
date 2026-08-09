@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 )
@@ -22,7 +23,7 @@ func main() {
 	defer timeTrack(time.Now(), "main")
 
 	help := flag.Bool("help", false, "Display help")
-	inputFile := flag.String("input", "test.txt", "File to do the operations")
+	inputFile := flag.String("input", "test.txt", "File or folder to do the operations")
 	countIt := flag.String("count", "emails", "What to count")
 	outputFile := flag.String("output", "output.txt", "File to output the results")
 	debug = flag.Bool("debug", false, "Debug the script")
@@ -35,7 +36,12 @@ func main() {
 
 	} else {
 
-		fileToHandle := fileToString(*inputFile)
+		if isDirectory(*inputFile) && outputInsideFolder(*inputFile, *outputFile) {
+			fmt.Println("ERROR: The output file cannot be located inside the scanned folder or any of its subfolders:", *inputFile)
+			os.Exit(1)
+		}
+
+		fileToHandle := inputToString(*inputFile)
 
 		var allMatches []string
 		var allMatchesLC []string
@@ -73,7 +79,7 @@ func main() {
 		stringToFile(*outputFile, stringFinal)
 
 		fmt.Println("\nWHAT HAPPENED?")
-		fmt.Println("The parsed file : ", *inputFile)
+		fmt.Println("The parsed input : ", *inputFile)
 		fmt.Println("Number of total", *countIt, "found in", *inputFile, ":", len(allMatches))
 		fmt.Println("Number of unique", *countIt, "saved in the file", *outputFile, ":", len(uniques))
 		fmt.Println("The results are hashed as sha256 ?", *encrypt)

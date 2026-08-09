@@ -4,8 +4,10 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"io/fs"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
@@ -31,6 +33,73 @@ func fileToString(fileName string) string {
 		panic(err)
 	}
 	return string(dat)
+}
+
+// isDirectory returns true if the given path is a directory.
+func isDirectory(path string) bool {
+	info, err := os.Stat(path)
+	if err != nil {
+		return false
+	}
+	return info.IsDir()
+}
+
+// inputToString reads all the content from a file or, if the input is a folder, from all the supported files inside the folder and its subfolders.
+func inputToString(inputPath string) string {
+	defer timeTrack(time.Now(), "inputToString")
+	if isDirectory(inputPath) {
+		return folderToString(inputPath)
+	}
+	return fileToString(inputPath)
+}
+
+// supportedExtension returns true if the file has one of the supported extensions.
+func supportedExtension(path string) bool {
+	switch strings.ToLower(filepath.Ext(path)) {
+	case ".txt", ".csv", ".tsv", ".xml", ".html", ".json":
+		return true
+	}
+	return false
+}
+
+// folderToString reads the content of all the supported files inside a folder and its subfolders.
+func folderToString(folderPath string) string {
+	var sb strings.Builder
+	err := filepath.WalkDir(folderPath, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if d.IsDir() || !supportedExtension(path) {
+			return nil
+		}
+		dat, err := os.ReadFile(path)
+		if err != nil {
+			return err
+		}
+		sb.Write(dat)
+		return nil
+	})
+	if err != nil {
+		panic(err)
+	}
+	return sb.String()
+}
+
+// outputInsideFolder returns true if the output file would be written inside the scanned folder or any of its subfolders.
+func outputInsideFolder(folderPath, outputPath string) bool {
+	folderAbs, err := filepath.Abs(folderPath)
+	if err != nil {
+		return false
+	}
+	outputAbs, err := filepath.Abs(outputPath)
+	if err != nil {
+		return false
+	}
+	rel, err := filepath.Rel(folderAbs, filepath.Dir(outputAbs))
+	if err != nil {
+		return false
+	}
+	return rel != ".." && !strings.HasPrefix(rel, ".."+string(filepath.Separator))
 }
 
 // searchInString reads a string and returns all matches in the string.

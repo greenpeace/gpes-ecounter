@@ -57,6 +57,14 @@ Please note that the files don't need to be in the same format. They just need t
 
 	./ecounter -input=combined.txt -output=uniques.txt -encrypt=true
 
+# Scan a folder
+
+Instead of a single file, you can pass a folder as -input. It will be scanned recursively (all subfolders included) and every .txt, .csv, .tsv, .xml, .html and .json file found will be scanned:
+
+	./ecounter -input=all/ -output=uniques.txt -encrypt=true
+
+Please note that the -output file cannot be located inside the scanned folder or any of its subfolders.
+
 .
 */
 package main
