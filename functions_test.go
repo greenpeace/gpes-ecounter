@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -244,10 +245,7 @@ func TestArrayToUpercase(t *testing.T) {
 
 func TestUniquesInArray(t *testing.T) {
 	got := uniquesInArray([]string{"a", "b", "a", "c", "b", "a"})
-	want := []string{"a", "b", "c"}
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("uniquesInArray = %v, want %v", got, want)
-	}
+	assertSet(t, got, []string{"a", "b", "c"})
 	if got := uniquesInArray([]string{}); len(got) != 0 {
 		t.Errorf("uniquesInArray([]) = %v, want empty", got)
 	}
@@ -284,5 +282,189 @@ func TestStringToFile(t *testing.T) {
 	}
 	if string(dat) != content {
 		t.Errorf("stringToFile wrote %q, want %q", string(dat), content)
+	}
+}
+
+// readLines reads a file and returns its non-empty lines.
+func readLines(t *testing.T, path string) []string {
+	t.Helper()
+	dat, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var lines []string
+	for _, l := range strings.Split(string(dat), "\n") {
+		if l != "" {
+			lines = append(lines, l)
+		}
+	}
+	return lines
+}
+
+func captureStdout(t *testing.T, fn func()) string {
+	t.Helper()
+	previous := os.Stdout
+	r, w, err := os.Pipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+	os.Stdout = w
+	defer func() {
+		os.Stdout = previous
+		_ = r.Close()
+		_ = w.Close()
+	}()
+
+	fn()
+	if err := w.Close(); err != nil {
+		t.Fatal(err)
+	}
+	output, err := io.ReadAll(r)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return string(output)
+}
+
+// assertSet checks that got contains exactly the strings in want (order independent).
+func assertSet(t *testing.T, got, want []string) {
+	t.Helper()
+	if len(got) != len(want) {
+		t.Errorf("got %d lines %v, want %d %v", len(got), got, len(want), want)
+	}
+	gotSet := make(map[string]struct{}, len(got))
+	for _, g := range got {
+		gotSet[g] = struct{}{}
+	}
+	wantSet := make(map[string]struct{}, len(want))
+	for _, w := range want {
+		wantSet[w] = struct{}{}
+	}
+	if len(gotSet) != len(got) {
+		t.Errorf("got duplicate lines in %v", got)
+	}
+	if !reflect.DeepEqual(gotSet, wantSet) {
+		t.Errorf("got set %v, want %v", gotSet, wantSet)
+	}
+}
+
+func TestRunEmails(t *testing.T) {
+	dir := t.TempDir()
+	in := filepath.Join(dir, "in.txt")
+	if err := os.WriteFile(in, []byte("a@x.com\nB@X.COM\na@x.com\n"), 0644); err != nil {
+		t.Fatal(err)
+	}
+	out := filepath.Join(dir, "out.txt")
+	if code := run([]string{"-input", in, "-output", out, "-count", "emails"}); code != 0 {
+		t.Fatalf("run exited with %d", code)
+	}
+	assertSet(t, readLines(t, out), []string{"a@x.com", "b@x.com"})
+}
+
+func TestRunSha256Input(t *testing.T) {
+	dir := t.TempDir()
+	in := filepath.Join(dir, "in.txt")
+	hash := "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+	if err := os.WriteFile(in, []byte(hash+"\n"+hash+"\n"), 0644); err != nil {
+		t.Fatal(err)
+	}
+	out := filepath.Join(dir, "out.txt")
+	if code := run([]string{"-input", in, "-output", out, "-count", "sha256"}); code != 0 {
+		t.Fatalf("run exited with %d", code)
+	}
+	assertSet(t, readLines(t, out), []string{hash})
+}
+
+func TestRunURLs(t *testing.T) {
+	dir := t.TempDir()
+	in := filepath.Join(dir, "in.txt")
+	if err := os.WriteFile(in, []byte("https://example.com/a\nhttp://test.io/b\n"), 0644); err != nil {
+		t.Fatal(err)
+	}
+	out := filepath.Join(dir, "out.txt")
+	if code := run([]string{"-input", in, "-output", out, "-count", "urls"}); code != 0 {
+		t.Fatalf("run exited with %d", code)
+	}
+	assertSet(t, readLines(t, out), []string{"https://example.com/a", "http://test.io/b"})
+}
+
+func TestRunDNI(t *testing.T) {
+	dir := t.TempDir()
+	in := filepath.Join(dir, "in.txt")
+	if err := os.WriteFile(in, []byte("dni 12345678Z and 87654321x\n"), 0644); err != nil {
+		t.Fatal(err)
+	}
+	out := filepath.Join(dir, "out.txt")
+	if code := run([]string{"-input", in, "-output", out, "-count", "dnis"}); code != 0 {
+		t.Fatalf("run exited with %d", code)
+	}
+	assertSet(t, readLines(t, out), []string{"12345678Z", "87654321X"})
+}
+
+func TestRunEncrypt(t *testing.T) {
+	dir := t.TempDir()
+	in := filepath.Join(dir, "in.txt")
+	if err := os.WriteFile(in, []byte("A@X.COM\n"), 0644); err != nil {
+		t.Fatal(err)
+	}
+	out := filepath.Join(dir, "out.txt")
+	if code := run([]string{"-input", in, "-output", out, "-count", "emails", "-encrypt=true"}); code != 0 {
+		t.Fatalf("run exited with %d", code)
+	}
+	hash := stringToSha256("a@x.com")
+	assertSet(t, readLines(t, out), []string{hash})
+}
+
+func TestRunOutputInsideFolder(t *testing.T) {
+	dir := t.TempDir()
+	in := filepath.Join(dir, "in.txt")
+	if err := os.WriteFile(in, []byte("a@x.com\n"), 0644); err != nil {
+		t.Fatal(err)
+	}
+	out := filepath.Join(dir, "out.txt")
+	if code := run([]string{"-input", dir, "-output", out, "-count", "emails"}); code != 1 {
+		t.Fatalf("run exited with %d, want 1 (output inside folder rejected)", code)
+	}
+}
+
+func TestRunHelp(t *testing.T) {
+	tests := []struct {
+		name         string
+		args         []string
+		wantHelpText bool
+	}{
+		{"short", []string{"-h"}, false},
+		{"long", []string{"-help"}, true},
+		{"double dash", []string{"--help"}, true},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			var code int
+			output := captureStdout(t, func() {
+				code = run(tc.args)
+			})
+			if code != 0 {
+				t.Fatalf("run %v exited with %d, want 0", tc.args, code)
+			}
+			if tc.wantHelpText && !strings.Contains(output, "* * * HELP * * *") {
+				t.Errorf("run %v output %q, want help text", tc.args, output)
+			}
+		})
+	}
+}
+
+func TestRunMissingInput(t *testing.T) {
+	if os.Getenv("GO_WANT_HELPER_PROCESS") == "1" {
+		run([]string{"-input", filepath.Join(t.TempDir(), "missing.txt"), "-output", filepath.Join(t.TempDir(), "out.txt")})
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestRunMissingInput")
+	cmd.Env = append(os.Environ(), "GO_WANT_HELPER_PROCESS=1")
+	out, err := cmd.CombinedOutput()
+	if err == nil {
+		t.Fatalf("expected non-zero exit, got output: %s", out)
+	}
+	if !strings.Contains(string(out), "ERROR: The file/path") {
+		t.Fatalf("expected error message, got: %s", out)
 	}
 }
