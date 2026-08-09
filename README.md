@@ -21,7 +21,7 @@
 **ecounter** is a command line script. To get help type in the command line:
 
 ```bash
-./ecounter --help
+./gpes-ecounter --help
 ```
 
 #### Scan emails in a file
@@ -29,7 +29,7 @@
 Scan a file and create another file with just one email per line:
 
 ```bash
-./ecounter -input=rawfile.csv -output=uniques.txt
+./gpes-ecounter -input=rawfile.csv -output=uniques.txt
 ```
 
 #### Scan sha256 hashes in a file
@@ -37,7 +37,7 @@ Scan a file and create another file with just one email per line:
 Scan a file for sha256 hashes and create another file with just one (unique) sha256 hash per line:
 
 ```bash
-./ecounter -input=rawfile.csv -count=sha256 -output=uniques.txt
+./gpes-ecounter -input=rawfile.csv -count=sha256 -output=uniques.txt
 ```
 
 This feature is useful to count unique emails when they are hashed (encrypted).
@@ -47,7 +47,7 @@ This feature is useful to count unique emails when they are hashed (encrypted).
 Scan a file, like for example a sitemap.xml file, for urls:
 
 ```bash
-./ecounter -input=sitemap.xml -count=urls -output=urls.csv
+./gpes-ecounter -input=sitemap.xml -count=urls -output=urls.csv
 ```
 
 This feature is useful to create files with urls to use with [check-my-pages](https://github.com/greenpeace/check-my-pages).
@@ -57,13 +57,13 @@ This feature is useful to create files with urls to use with [check-my-pages](ht
 Scan Spanish ID numbers (DNI or NIE)
 
 ```bash
-./ecounter -input=rawfile.csv -count=dnis -output=uniques.txt
+./gpes-ecounter -input=rawfile.csv -count=dnis -output=uniques.txt
 ```
 
 #### Hash emails (encrypt)
 
 ```bash
-./ecounter -input=rawfile.csv -output=uniques.txt -encrypt=true
+./gpes-ecounter -input=rawfile.csv -output=uniques.txt -encrypt=true
 ```
 
 #### Counting
@@ -95,7 +95,7 @@ cat all/*.csv > combined.txt
 Please note that the files don't need to be in the same format. They just need to be csv or text files containing, among any information, email addresses. When the email addresses are all in one file, use it normally:
 
 ```bash
-./ecounter -input=combined.txt -output=uniques.txt -encrypt=true
+./gpes-ecounter -input=combined.txt -output=uniques.txt -encrypt=true
 ```
 
 ## Install
@@ -104,8 +104,8 @@ Please note that the files don't need to be in the same format. They just need t
 1. Unzip it to the desktop folder. *(Optionally copy the executable file to a folder in your [path](https://goo.gl/oLzTGw) )*
 1. To test your install, open the command line, go to the desktop folder and test it with the command: 
 
-* `./ecounter --help` *(Mac or Linux)*
-* `./ecounter.exe --help` *(Windows)*
+* `./gpes-ecounter --help` *(Mac or Linux)*
+* `./gpes-ecounter.exe --help` *(Windows)*
 
 ## Install from the source code
 
