@@ -52,7 +52,7 @@ Scan a file, like for example a sitemap.xml file, for urls:
 
 This feature is useful to create files with urls to use with [check-my-pages](https://github.com/greenpeace/check-my-pages).
 
-#### Scan Spanish ID numbers
+#### Scan Spanish ID numbers in a file
 
 Scan Spanish ID numbers (DNI or NIE)
 
@@ -97,6 +97,14 @@ Please note that the files don't need to be in the same format. They just need t
 ```bash
 ./gpes-ecounter -input=combined.txt -output=uniques.txt -encrypt=true
 ```
+
+You can also pass a folder as `-input`. It will be scanned **recursively** (all subfolders included) and every .txt, .csv, .tsv, .xml, .html and .json file found will be scanned:
+
+```bash
+./ecounter -input=all/ -output=uniques.txt -encrypt=true
+```
+
+Please note that the `-output` file cannot be located inside the scanned folder or any of its subfolders.
 
 ## Install
 
