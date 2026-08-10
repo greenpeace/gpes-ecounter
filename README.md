@@ -134,8 +134,8 @@ go build
 To cross-compile for Windows or Linux from any platform:
 
 ```bash
-GOOS=windows GOARCH=amd64 go build -o ecounter.exe .
-GOOS=linux GOARCH=amd64 go build -o ecounter-linux .
+GOOS=windows GOARCH=amd64 go build -o gpes-ecounter.exe .
+GOOS=linux GOARCH=amd64 go build -o gpes-ecounter .
 ```
 
 ## Problems?
